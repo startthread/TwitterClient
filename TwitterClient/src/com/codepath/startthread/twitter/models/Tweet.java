@@ -7,30 +7,45 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
 import android.util.Log;
 
-public class Tweet {
+@Table(name = "tweets")
+public class Tweet extends Model {
 	public static final String AT = "@";
-	
 	private static final String TAG = "Tweet";
+
+	@Column(name="tweetId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+	private long tweetId;
 	
+	@Column(name="body")
 	private String body;
-	private long uid;
+	
+	@Column(name="created_at")
 	private String createdAt;
+	
+	@Column(name="user")
 	private User user;
+
+	public Tweet() {
+		super();
+	}
 	
 	public static Tweet fromJSON(JSONObject json) {
 		Tweet tweet = new Tweet();
 		try {
 			tweet.body = json.getString("text");
-			tweet.uid = json.getLong("id");
+			tweet.tweetId = json.getLong("id");
 			tweet.createdAt = json.getString("created_at");
 			tweet.user = User.fromJSON(json.getJSONObject("user"));
 		} catch (JSONException e) {
 			Log.w(TAG, "could not parse json", e);
 			return null;
 		}
-		
+
 		return tweet;
 	}
 
@@ -38,8 +53,8 @@ public class Tweet {
 		return body;
 	}
 
-	public long getUid() {
-		return uid;
+	public long getTweetId() {
+		return tweetId;
 	}
 
 	public String getCreatedAt() {
@@ -57,7 +72,7 @@ public class Tweet {
 
 	public static List<Tweet> fromJSONArray(JSONArray json) {
 		final List<Tweet> tweets = new ArrayList<Tweet>(json.length());
-		for (int i=0; i<json.length(); i++) {
+		for (int i = 0; i < json.length(); i++) {
 			JSONObject tweetJson = null;
 			try {
 				tweetJson = json.getJSONObject(i);
@@ -65,7 +80,7 @@ public class Tweet {
 				Log.w(TAG, "error while getting tweet json", e);
 				continue;
 			}
-			
+
 			final Tweet tweet = Tweet.fromJSON(tweetJson);
 			if (tweet != null) {
 				tweets.add(tweet);
@@ -73,6 +88,5 @@ public class Tweet {
 		}
 		return tweets;
 	}
-	
-	
+
 }

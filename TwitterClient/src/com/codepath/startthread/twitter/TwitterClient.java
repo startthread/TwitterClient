@@ -34,33 +34,22 @@ public class TwitterClient extends OAuthBaseClient {
 	public static final String REST_CONSUMER_KEY = "CrsegfjpmNEX30TFdt6TEGXcS";       // Change this
 	public static final String REST_CONSUMER_SECRET = "m3ZrCoSElkF2QuPQJBG0cF9YDkouIWCYtmCUpfdVAu6EnHbWiP"; // Change this
 	public static final String REST_CALLBACK_URL = "oauth://cpbasictweets"; // Change this (here and in manifest)
-
-	private long sinceId;
-	private long leastId;
-	//private int count;
 	
 	public TwitterClient(Context context) {
 		super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
 	}
 	
-	public void getHomeTimeline(AsyncHttpResponseHandler handler) {
+	public void getHomeTimeline(long maxId, AsyncHttpResponseHandler handler) {
 		String apiUri = getApiUrl("statuses/home_timeline.json"); 
 		RequestParams params = new RequestParams();
 		params.put("since_id", "1");
-		if (leastId != 0) {
-			params.put("max_id", Long.toString(leastId-1));
+		
+		if (maxId != Long.MAX_VALUE) {
+			params.put("max_id", Long.toString(maxId));
 		}
 		
 		Log.d(TAG, "getHomeTimeline params; " + params.toString());
 		client.get(apiUri, params, handler);
-	}
-
-	public void updateLeastLoadedId(List<Tweet> tweets) {
-		for(Tweet t : tweets) {
-			if (leastId == 0 || t.getUid() < leastId) {
-				leastId = t.getUid();
-			}
-		}
 	}
 
 	// CHANGE THIS

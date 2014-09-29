@@ -1,4 +1,4 @@
-package com.codepath.startthread.imagesearch.custom;
+package com.codepath.startthread.twitter.custom;
 
 import android.util.Log;
 import android.widget.AbsListView;

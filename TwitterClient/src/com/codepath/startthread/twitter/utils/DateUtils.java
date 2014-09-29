@@ -1,4 +1,4 @@
-package com.codepath.startthread.imagesearch.utils;
+package com.codepath.startthread.twitter.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

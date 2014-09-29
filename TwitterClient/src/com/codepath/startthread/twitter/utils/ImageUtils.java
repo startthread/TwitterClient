@@ -1,4 +1,4 @@
-package com.codepath.startthread.imagesearch.utils;
+package com.codepath.startthread.twitter.utils;
 
 import java.io.File;
 import java.io.FileOutputStream;
