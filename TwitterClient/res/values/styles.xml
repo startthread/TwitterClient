@@ -1,6 +1,6 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="TwitterAppTheme" parent="@android:style/Theme.Holo.Light">
+    <style name="TwitterAppTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
         <item name="android:actionBarStyle">@style/TwitterActionBar</item>
     </style>
 
@@ -13,4 +13,9 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="FaintedTextSmall">
+        <item name="android:textColor">@color/faint_text</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    
 </resources>

@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.codepath.apps.restclienttemplate.R;
+import com.codepath.startthread.twitter.R;
 import com.codepath.startthread.twitter.models.Tweet;
 import com.codepath.startthread.twitter.utils.DateUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;

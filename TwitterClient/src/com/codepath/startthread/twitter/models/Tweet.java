@@ -10,6 +10,8 @@ import org.json.JSONObject;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.annotation.Column.ForeignKeyAction;
+import com.activeandroid.query.Select;
 
 import android.util.Log;
 
@@ -18,22 +20,22 @@ public class Tweet extends Model {
 	public static final String AT = "@";
 	private static final String TAG = "Tweet";
 
-	@Column(name="tweetId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+	@Column(name = "tweetId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
 	private long tweetId;
-	
-	@Column(name="body")
+
+	@Column(name = "body")
 	private String body;
-	
-	@Column(name="created_at")
+
+	@Column(name = "created_at")
 	private String createdAt;
-	
-	@Column(name="user")
+
+	@Column(name = "user")
 	private User user;
 
 	public Tweet() {
 		super();
 	}
-	
+
 	public static Tweet fromJSON(JSONObject json) {
 		Tweet tweet = new Tweet();
 		try {
@@ -89,4 +91,10 @@ public class Tweet extends Model {
 		return tweets;
 	}
 
+	public static Tweet getTweet(Tweet tweet) {
+	    return new Select()
+	        .from(Tweet.class)
+	        .where("tweetId = ?", tweet.getTweetId())
+	        .executeSingle();
+	}
 }

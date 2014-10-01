@@ -4,18 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.codepath.apps.restclienttemplate.R;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.codepath.startthread.twitter.R;
 import com.codepath.startthread.twitter.TwitterApplication;
 import com.codepath.startthread.twitter.TwitterClient;
 import com.codepath.startthread.twitter.adapters.TweetArrayAdapter;
@@ -46,7 +44,7 @@ public class TimelineActivity extends SherlockFragmentActivity {
 		lvTweets.setAdapter(adapter);
 		
 		setupViews();
-		populateTimeline();
+		populateTimeline(true);
 	}
 	
 	private void setupViews() {
@@ -55,7 +53,7 @@ public class TimelineActivity extends SherlockFragmentActivity {
 			@Override
 			public void onLoadMore(int page, int totalItemsCount) {
 				Log.d(TAG, "Page: " + page + " totalItemsCount: " + totalItemsCount);
-				populateTimeline();
+				populateTimeline(false);
 			}
 		});
 		
@@ -64,13 +62,12 @@ public class TimelineActivity extends SherlockFragmentActivity {
 			@Override
 			public void onRefresh() {
 				nextMaxId = Long.MAX_VALUE;
-				adapter.clear();
-				populateTimeline();
+				populateTimeline(true);
 			}
 		});
 	}
-
-	public void populateTimeline() {
+	
+	public void populateTimeline(final boolean cleanOnLoad) {
 		client.getHomeTimeline(nextMaxId, new JsonHttpResponseHandler() {
 			@Override
 			protected void handleFailureMessage(Throwable throwable, String response) {
@@ -82,6 +79,7 @@ public class TimelineActivity extends SherlockFragmentActivity {
 			
 			@Override
 			public void onFailure(Throwable throwable, String message) {
+				
 				lvTweets.onRefreshComplete();
 				Toast.makeText(TimelineActivity.this, R.string.error_msg_loading_timeline, 
 						Toast.LENGTH_SHORT).show();
@@ -93,15 +91,33 @@ public class TimelineActivity extends SherlockFragmentActivity {
 				List<Tweet> tweets = Tweet.fromJSONArray(response);
 				
 				// update max_id to be used next time
-				for(Tweet t : tweets) {
-					t.save();
-					if (t.getTweetId() < nextMaxId) {
-						nextMaxId = t.getTweetId();
+				try {
+//				ActiveAndroid.beginTransaction();
+					for(Tweet t : tweets) {
+//						User u = User.getUser(t.getUser());
+//						if (u != null) {
+//							u.delete();
+//						}
+//						t.getUser().save();
+//						Tweet t2 = Tweet.getTweet(t);
+//						if (t2 != null) {
+//							t2.delete();
+//						}
+//						t.save();
+						if (t.getTweetId() < nextMaxId) {
+							nextMaxId = t.getTweetId();
+						}
 					}
+//					ActiveAndroid.setTransactionSuccessful();
+				} finally {
+//					ActiveAndroid.endTransaction();
 				}
+				
 				// in iteration load tweet with id less than current id
 				nextMaxId = nextMaxId -1; 
-				
+				if (cleanOnLoad) {
+					adapter.clear();
+				}
 				adapter.addAll(tweets);
 				lvTweets.onRefreshComplete();
 				Log.d(TAG, "received timeline with tweets # " + tweets.size());
@@ -109,5 +125,21 @@ public class TimelineActivity extends SherlockFragmentActivity {
 		});
 	}
 	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getSupportMenuInflater();
+	    inflater.inflate(R.menu.timeline, menu);
+	   return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.action_compose:
+				
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 	
 }

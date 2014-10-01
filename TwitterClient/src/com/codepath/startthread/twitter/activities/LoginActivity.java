@@ -4,10 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Toast;
 
-import com.codepath.apps.restclienttemplate.R;
 import com.codepath.oauth.OAuthLoginActivity;
+import com.codepath.startthread.twitter.R;
 import com.codepath.startthread.twitter.TwitterClient;
 
 public class LoginActivity extends OAuthLoginActivity<TwitterClient> {
