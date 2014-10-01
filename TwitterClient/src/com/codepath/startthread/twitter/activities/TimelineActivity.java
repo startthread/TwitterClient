@@ -6,6 +6,7 @@ import java.util.List;
 import org.json.JSONArray;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import com.codepath.startthread.twitter.TwitterApplication;
 import com.codepath.startthread.twitter.TwitterClient;
 import com.codepath.startthread.twitter.adapters.TweetArrayAdapter;
 import com.codepath.startthread.twitter.custom.EndlessScrollListener;
+import com.codepath.startthread.twitter.fragments.ComposeDialogFragment;
 import com.codepath.startthread.twitter.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -136,7 +138,9 @@ public class TimelineActivity extends SherlockFragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_compose:
-				
+			FragmentManager fm = getSupportFragmentManager();
+			ComposeDialogFragment cdf = ComposeDialogFragment.newInstance("Me");
+			cdf.show(fm, "composer");
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

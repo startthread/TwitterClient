@@ -4,7 +4,7 @@
         android:id="@+id/action_compose"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:icon="@drawable/ic_action_compose"
-        android:title="@string/action_settings"/>
+        android:icon="@drawable/ic_action_twitter_compose_1"
+        android:title="@string/action_compose"/>
 
 </menu>
