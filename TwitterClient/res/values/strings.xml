@@ -17,4 +17,8 @@
     <string name="timestamp_label">7s</string>
     <string name="error_msg_loading_timeline">Problem while loading timeline</string>
 
+    <string name="tweet_posted">Tweet sent</string>
+    <string name="failed_to_post_tweet">Failed to send tweet</string>
+    
+    
 </resources>

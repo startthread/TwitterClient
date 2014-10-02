@@ -59,30 +59,44 @@
         android:layout_alignLeft="@+id/tvName"
         android:layout_below="@+id/tvBody" >
 
+        <ImageView
+            android:id="@+id/ivReply"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_reply" />
         <TextView
             android:id="@+id/tvReply"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="36dp"
-            android:drawablePadding="4dp"
-            android:drawableLeft="@drawable/ic_reply" />
+            android:layout_height="wrap_content"/>
+        
+        <ImageView
+            android:id="@+id/ivRetweet"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_retweet" />
         
         <TextView
             android:id="@+id/btnRetweet"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="36dp"
-            android:drawablePadding="4dp"
-            android:drawableLeft="@drawable/ic_retweet" />
+            android:layout_height="wrap_content"/>
 
 
+        <ImageView
+            android:id="@+id/ivFavorite"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_favorite" />
+        
         <TextView
             android:id="@+id/btnFavorite"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="36dp"
-            android:drawablePadding="4dp"
-            android:drawableLeft="@drawable/ic_favorite" />
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

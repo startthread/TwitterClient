@@ -51,6 +51,14 @@ public class TwitterClient extends OAuthBaseClient {
 		Log.d(TAG, "getHomeTimeline params; " + params.toString());
 		client.get(apiUri, params, handler);
 	}
+	
+	public void postTweet(String body, AsyncHttpResponseHandler handler) {
+		String apiUri = getApiUrl("statuses/update.json");
+		RequestParams params = new RequestParams();
+		params.put("status", body);
+		client.post(apiUri, params, handler);
+		Log.d(TAG, "postTweet");
+	}
 
 	// CHANGE THIS
 	// DEFINE METHODS for different API endpoints here

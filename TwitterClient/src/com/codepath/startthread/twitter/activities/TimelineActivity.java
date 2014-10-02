@@ -6,7 +6,8 @@ import java.util.List;
 import org.json.JSONArray;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -20,12 +21,13 @@ import com.codepath.startthread.twitter.TwitterClient;
 import com.codepath.startthread.twitter.adapters.TweetArrayAdapter;
 import com.codepath.startthread.twitter.custom.EndlessScrollListener;
 import com.codepath.startthread.twitter.fragments.ComposeDialogFragment;
+import com.codepath.startthread.twitter.fragments.ComposeDialogFragment.ComposerListener;
 import com.codepath.startthread.twitter.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import eu.erikw.PullToRefreshListView;
 
-public class TimelineActivity extends SherlockFragmentActivity {
+public class TimelineActivity extends SherlockFragmentActivity implements ComposerListener {
 
 	private static final String TAG = "TimelineActivity";
 	private TwitterClient client;
@@ -138,12 +140,23 @@ public class TimelineActivity extends SherlockFragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_compose:
-			FragmentManager fm = getSupportFragmentManager();
+			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+			Fragment prev = getSupportFragmentManager().findFragmentByTag("composer");
+			if (prev != null) {
+				ft.remove(prev);
+			}
+			ft.addToBackStack(null);
 			ComposeDialogFragment cdf = ComposeDialogFragment.newInstance("Me");
-			cdf.show(fm, "composer");
+			cdf.setListener(this);
+			cdf.show(ft, "composer");
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
+	@Override
+	public void onTweetSent(Tweet tweet) {
+		tweets.add(0, tweet);
+		adapter.notifyDataSetChanged();
+	}
 }
