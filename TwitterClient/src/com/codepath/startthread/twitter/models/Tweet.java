@@ -73,7 +73,7 @@ public class Tweet extends Model {
 			tweet.tweetId = json.getLong("id");
 			tweet.createdAt = json.getString("created_at");
 			tweet.retweetCount = json.optLong("retweet_count");
-			tweet.favoriteCount = json.optLong("favourites_count");
+			tweet.favoriteCount = json.optLong("favorite_count");
 			tweet.user = User.fromJSON(json.getJSONObject("user"));
 		} catch (JSONException e) {
 			Log.w(TAG, "could not parse json", e);
