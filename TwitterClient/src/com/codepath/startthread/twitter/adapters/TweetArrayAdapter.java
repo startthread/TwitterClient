@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.codepath.startthread.twitter.R;
 import com.codepath.startthread.twitter.models.Tweet;
 import com.codepath.startthread.twitter.utils.DateUtils;
+import com.codepath.startthread.twitter.utils.PrettyTime;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
@@ -46,7 +47,8 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		
-		final String timestamp = DateUtils.getRelativeTimeAgo(tweet.getCreatedAt());
+		//final String timestamp = DateUtils.getRelativeTimeAgo(tweet.getCreatedAt());
+		final String timestamp = PrettyTime.getTwitterTime(DateUtils.getTime(tweet.getCreatedAt()));
 		
 		// Populate views with tweet info
 		holder.ivProfileImage.setImageResource(android.R.color.transparent);
