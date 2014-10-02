@@ -38,6 +38,8 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 			holder.tvUsername = (TextView) convertView.findViewById(R.id.tvUsername);
 			holder.tvTimestamp = (TextView) convertView.findViewById(R.id.tvTimestamp);
 			holder.tvBody = (TextView) convertView.findViewById(R.id.tvBody);
+			holder.tvRetweetCount = (TextView) convertView.findViewById(R.id.tvRetweetCount);
+			holder.tvFavoriteCount = (TextView) convertView.findViewById(R.id.tvFavoriteCount);
 			
 			convertView.setTag(holder);
 		} else {
@@ -53,6 +55,9 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 		holder.tvUsername.setText(Tweet.AT + tweet.getUser().getScreenName());
 		holder.tvTimestamp.setText(timestamp);
 		holder.tvBody.setText(tweet.getBody());
+		holder.tvRetweetCount.setText(tweet.getRetweetCount() > 0 ? Long.toString(tweet.getRetweetCount()) : "");
+		holder.tvFavoriteCount.setText(tweet.getFavoriteCount() > 0 ? Long.toString(tweet.getFavoriteCount()) : "");
+		holder.tvBody.setText(tweet.getBody());
 
 		return convertView;
 	}
@@ -63,6 +68,8 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 		public TextView tvUsername;
 		public TextView tvTimestamp;
 		public TextView tvBody;
+		public TextView tvRetweetCount;
+		public TextView tvFavoriteCount;
 	}
 	
 }

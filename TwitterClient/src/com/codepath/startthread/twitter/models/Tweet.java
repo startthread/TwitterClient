@@ -29,26 +29,17 @@ public class Tweet extends Model {
 	@Column(name = "created_at")
 	private String createdAt;
 
+	@Column(name = "retweet_count")
+	private long retweetCount;
+	
+	@Column(name = "favorite_count")
+	private long favoriteCount;
+	
 	@Column(name = "user")
 	private User user;
 
 	public Tweet() {
 		super();
-	}
-
-	public static Tweet fromJSON(JSONObject json) {
-		Tweet tweet = new Tweet();
-		try {
-			tweet.body = json.getString("text");
-			tweet.tweetId = json.getLong("id");
-			tweet.createdAt = json.getString("created_at");
-			tweet.user = User.fromJSON(json.getJSONObject("user"));
-		} catch (JSONException e) {
-			Log.w(TAG, "could not parse json", e);
-			return null;
-		}
-
-		return tweet;
 	}
 
 	public String getBody() {
@@ -66,11 +57,32 @@ public class Tweet extends Model {
 	public User getUser() {
 		return user;
 	}
-
-	@Override
-	public String toString() {
-		return body;
+	
+	public long getRetweetCount() {
+		return retweetCount;
 	}
+
+	public long getFavoriteCount() {
+		return favoriteCount;
+	}
+
+	public static Tweet fromJSON(JSONObject json) {
+		Tweet tweet = new Tweet();
+		try {
+			tweet.body = json.getString("text");
+			tweet.tweetId = json.getLong("id");
+			tweet.createdAt = json.getString("created_at");
+			tweet.retweetCount = json.optLong("retweet_count");
+			tweet.favoriteCount = json.optLong("favourites_count");
+			tweet.user = User.fromJSON(json.getJSONObject("user"));
+		} catch (JSONException e) {
+			Log.w(TAG, "could not parse json", e);
+			return null;
+		}
+
+		return tweet;
+	}
+
 
 	public static List<Tweet> fromJSONArray(JSONArray json) {
 		final List<Tweet> tweets = new ArrayList<Tweet>(json.length());
