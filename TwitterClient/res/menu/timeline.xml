@@ -2,9 +2,21 @@
 
     <item
         android:id="@+id/action_compose"
+        android:icon="@drawable/ic_action_twitter_compose_1"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:icon="@drawable/ic_action_twitter_compose_1"
         android:title="@string/action_compose"/>
+    <item
+        android:id="@+id/action_profile"
+        android:icon="@drawable/ic_action_profile"
+        android:orderInCategory="200"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_profile"/>
+    
+    <item
+        android:id="@+id/action_logout"
+        android:orderInCategory="300"
+        android:showAsAction="never"
+        android:title="@string/action_logout"/>
 
 </menu>

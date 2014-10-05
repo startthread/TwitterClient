@@ -19,7 +19,7 @@ public class PrettyTime {
 			long mins = msGap / DateUtils.MINUTE_IN_MILLIS;
 			return mins + "m";
 		} else {
-			long secs = msGap;
+			long secs = msGap < 0 ? 0 : (long)(msGap/DateUtils.SECOND_IN_MILLIS);
 			return secs + "s";
 		}
 	}

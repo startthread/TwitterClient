@@ -1,7 +1,5 @@
 package com.codepath.startthread.twitter;
 
-import java.util.List;
-
 import org.scribe.builder.api.Api;
 import org.scribe.builder.api.TwitterApi;
 
@@ -9,8 +7,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.codepath.oauth.OAuthBaseClient;
-import com.codepath.startthread.twitter.models.Tweet;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 /*
@@ -60,22 +58,38 @@ public class TwitterClient extends OAuthBaseClient {
 		Log.d(TAG, "postTweet");
 	}
 
-	// CHANGE THIS
-	// DEFINE METHODS for different API endpoints here
-//	public void getInterestingnessList(AsyncHttpResponseHandler handler) {
-//		String apiUrl = getApiUrl("?nojsoncallback=1&method=flickr.interestingness.getList");
-//		// Can specify query string params directly or through RequestParams.
-//		RequestParams params = new RequestParams();
-//		params.put("format", "json");
-//		client.get(apiUrl, params, handler);
-//	}
-
-	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
-	 * 	  i.e getApiUrl("statuses/home_timeline.json");
-	 * 2. Define the parameters to pass to the request (query or body)
-	 *    i.e RequestParams params = new RequestParams("foo", "bar");
-	 * 3. Define the request method and make a call to the client
-	 *    i.e client.get(apiUrl, params, handler);
-	 *    i.e client.post(apiUrl, params, handler);
-	 */
+	public void getMentionsTimeline(long maxId, JsonHttpResponseHandler handler) {
+		String apiUri = getApiUrl("statuses/mentions_timeline.json"); 
+		RequestParams params = new RequestParams();
+		params.put("since_id", "1");
+		
+		if (maxId != Long.MAX_VALUE) {
+			params.put("max_id", Long.toString(maxId));
+		}
+		
+		Log.d(TAG, "getMentionsTimeline params; " + params.toString());
+		client.get(apiUri, params, handler);
+		
+	}
+	
+	public void getUserTimeline(long maxId, JsonHttpResponseHandler handler) {
+		String apiUri = getApiUrl("statuses/user_timeline.json"); 
+		Log.d(TAG, "getUserTimeline");
+		RequestParams params = new RequestParams();
+		params.put("since_id", "1");
+		
+		if (maxId != Long.MAX_VALUE) {
+			params.put("max_id", Long.toString(maxId));
+		}
+		
+		client.get(apiUri, params, handler);
+	}
+	
+	public void getMyInfo(JsonHttpResponseHandler handler) {
+		String apiUri = getApiUrl("account/verify_credentials.json"); 
+		Log.d(TAG, "getMyInfo");
+		client.get(apiUri, null, handler);
+	}
+	
+	
 }

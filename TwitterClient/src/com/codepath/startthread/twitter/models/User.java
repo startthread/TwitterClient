@@ -23,27 +23,21 @@ public class User extends Model {
 
 	@Column(name = "screen_name")
 	private String screenName;
+	
+	@Column(name = "tagline")
+	private String tagline;
 
 	@Column(name = "profile_image_url")
 	private String profileImageUrl;
+	
+	@Column(name = "followers_count")
+	private long followersCount;
+	
+	@Column(name = "following_count")
+	private long followingCount;
 
 	public User() {
 		super();
-	}
-
-	public static User fromJSON(JSONObject jsonObject) {
-		final User user = new User();
-
-		try {
-			user.name = jsonObject.getString("name");
-			user.userId = jsonObject.getLong("id");
-			user.screenName = jsonObject.getString("screen_name");
-			user.profileImageUrl = jsonObject.getString("profile_image_url");
-		} catch (JSONException e) {
-			Log.w(TAG, "could not parse json", e);
-			return null;
-		}
-		return user;
 	}
 
 	public String getName() {
@@ -62,10 +56,40 @@ public class User extends Model {
 		return profileImageUrl;
 	}
 	
+	public long getFollowersCount() {
+		return followersCount;
+	}
+
+	public long getFollowingCount() {
+		return followingCount;
+	}
+	
+	public String getTagline() {
+		return tagline;
+	}
+
 	public static User getUser(User user) {
 	    return new Select()
 	        .from(User.class)
 	        .where("userId = ?", user.getUserId())
 	        .executeSingle();
+	}
+	
+	public static User fromJSON(JSONObject jsonObject) {
+		final User user = new User();
+
+		try {
+			user.name = jsonObject.getString("name");
+			user.userId = jsonObject.getLong("id");
+			user.screenName = jsonObject.getString("screen_name");
+			user.tagline = jsonObject.getString("description");
+			user.profileImageUrl = jsonObject.getString("profile_image_url");
+			user.followersCount = jsonObject.getLong("followers_count");
+			user.followingCount = jsonObject.getLong("friends_count");
+		} catch (JSONException e) {
+			Log.w(TAG, "could not parse json", e);
+			return null;
+		}
+		return user;
 	}
 }
