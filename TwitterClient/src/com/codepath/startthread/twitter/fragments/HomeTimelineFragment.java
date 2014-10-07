@@ -23,14 +23,15 @@ public class HomeTimelineFragment extends TweetListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		populateTimeline(true);
 	}
 		
 	public void populateTimeline(final boolean cleanOnLoad) {
+		getActivity().setProgressBarIndeterminateVisibility(true);
 		client.getHomeTimeline(nextMaxId, new JsonHttpResponseHandler() {
 			@Override
 			protected void handleFailureMessage(Throwable throwable, String response) {
+				getActivity().setProgressBarIndeterminateVisibility(false);
 				lvTweets.onRefreshComplete();
 				Log.w(TAG, "failed to get timeline: " + response, throwable);
 				Toast.makeText(getActivity(), R.string.error_msg_loading_timeline, 
@@ -39,7 +40,7 @@ public class HomeTimelineFragment extends TweetListFragment {
 			
 			@Override
 			public void onFailure(Throwable throwable, String message) {
-				
+				getActivity().setProgressBarIndeterminateVisibility(false);
 				lvTweets.onRefreshComplete();
 				Toast.makeText(getActivity(), R.string.error_msg_loading_timeline, 
 						Toast.LENGTH_SHORT).show();
@@ -48,6 +49,7 @@ public class HomeTimelineFragment extends TweetListFragment {
 			
 			@Override
 			public void onSuccess(int statusCode, JSONArray response) {
+				getActivity().setProgressBarIndeterminateVisibility(false);
 				List<Tweet> tweets = Tweet.fromJSONArray(response);
 				
 				// update max_id to be used next time
@@ -86,7 +88,7 @@ public class HomeTimelineFragment extends TweetListFragment {
 	}
 
 	@Override
-	protected void onLoadMore() {
+	protected void onLoadMore() {		
 		populateTimeline(false);
 		
 	}

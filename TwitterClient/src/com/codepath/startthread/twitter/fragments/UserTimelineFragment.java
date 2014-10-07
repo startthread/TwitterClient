@@ -6,6 +6,9 @@ import org.json.JSONArray;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.codepath.startthread.twitter.R;
@@ -15,16 +18,10 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 public class UserTimelineFragment extends TweetListFragment {
 	private static final String TAG = "UserTimelineFragment";
 	private long nextMaxId = Long.MAX_VALUE;
+	private String screenName;
 	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		populateTimeline(true);
-	}
-		
 	public void populateTimeline(final boolean cleanOnLoad) {
-		client.getUserTimeline(nextMaxId, new JsonHttpResponseHandler() {
+		client.getUserTimeline(screenName, nextMaxId, new JsonHttpResponseHandler() {
 			@Override
 			protected void handleFailureMessage(Throwable throwable, String response) {
 				lvTweets.onRefreshComplete();
@@ -75,5 +72,13 @@ public class UserTimelineFragment extends TweetListFragment {
 		nextMaxId = Long.MAX_VALUE;
 		populateTimeline(true);
 		
+	}
+
+	public String getScreenName() {
+		return screenName;
+	}
+
+	public void setScreenName(String screenName) {
+		this.screenName = screenName;
 	}
 }

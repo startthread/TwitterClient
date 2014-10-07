@@ -35,6 +35,9 @@ public class User extends Model {
 	
 	@Column(name = "following_count")
 	private long followingCount;
+	
+	@Column(name = "statuses_count")
+	private long statusesCount;
 
 	public User() {
 		super();
@@ -66,6 +69,10 @@ public class User extends Model {
 	
 	public String getTagline() {
 		return tagline;
+	}	
+
+	public long getStatusesCount() {
+		return statusesCount;
 	}
 
 	public static User getUser(User user) {
@@ -86,6 +93,7 @@ public class User extends Model {
 			user.profileImageUrl = jsonObject.getString("profile_image_url");
 			user.followersCount = jsonObject.getLong("followers_count");
 			user.followingCount = jsonObject.getLong("friends_count");
+			user.statusesCount = jsonObject.getLong("statuses_count");
 		} catch (JSONException e) {
 			Log.w(TAG, "could not parse json", e);
 			return null;

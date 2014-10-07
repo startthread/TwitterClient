@@ -2,6 +2,7 @@
 
     <style name="TwitterAppTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
         <item name="android:actionBarStyle">@style/TwitterActionBar</item>
+        <item name="android:actionBarTabTextStyle">@style/TwitterAppTheme.ActionBar.TabText</item>
     </style>
 
     <style name="TwitterActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
@@ -17,5 +18,27 @@
         <item name="android:textColor">@color/faint_text</item>
         <item name="android:textSize">12sp</item>
     </style>
-    
+
+<!--     <style name="MyTheme" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarTabBarStyle">@style/MyTheme.ActionBar.TabBar</item>
+        <item name="android:actionBarTabStyle">@style/MyTheme.ActionBar.TabView</item>
+        
+    </style>
+
+    <style name="MyTheme.ActionBar.TabBar" parent="android:style/Widget.Holo.Light.ActionBar.TabBar">
+
+        This is an ORANGE background
+        <item name="android:background">@drawable/tab_bar_background</item>
+    </style>
+
+    <style name="MyTheme.ActionBar.TabView" parent="android:style/Widget.Holo.ActionBar.TabView">
+
+        This is a GREEN background
+        <item name="android:background">@drawable/tab_view_background</item>
+    </style> -->
+
+    <style name="TwitterAppTheme.ActionBar.TabText" parent="android:style/Widget.Holo.ActionBar.TabText">
+        <item name="android:textColor">@color/twitter_blue</item>
+    </style>
+
 </resources>

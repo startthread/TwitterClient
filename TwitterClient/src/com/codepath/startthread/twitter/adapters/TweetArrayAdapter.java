@@ -3,6 +3,7 @@ package com.codepath.startthread.twitter.adapters;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.startthread.twitter.R;
+import com.codepath.startthread.twitter.activities.ProfileActivity;
 import com.codepath.startthread.twitter.models.Tweet;
 import com.codepath.startthread.twitter.utils.DateUtils;
 import com.codepath.startthread.twitter.utils.PrettyTime;
@@ -42,6 +44,15 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 			holder.tvRetweetCount = (TextView) convertView.findViewById(R.id.tvRetweetCount);
 			holder.tvFavoriteCount = (TextView) convertView.findViewById(R.id.tvFavoriteCount);
 			
+			holder.ivProfileImage.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					final Intent intent = new Intent(getContext(), ProfileActivity.class);
+					intent.putExtra(ProfileActivity.EXTRA_SCREEN_NAME, tweet.getUser().getScreenName());
+					intent.putExtra(ProfileActivity.EXTRA_USER_ID, tweet.getUser().getUserId());
+					getContext().startActivity(intent);
+				}
+			});
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();

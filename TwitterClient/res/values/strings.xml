@@ -20,6 +20,7 @@
     <string name="tagline">Tagline</string>
     <string name="following">Following</string>
     <string name="followers">Followers</string>
+    <string name="tweets">Tweets</string>
     <string name="body_label">This is the tweet body</string>
     <string name="timestamp_label">7s</string>
     <string name="error_msg_loading_timeline">Problem while loading timeline</string>

@@ -11,6 +11,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Window;
 import com.codepath.startthread.twitter.R;
 import com.codepath.startthread.twitter.TwitterApplication;
 import com.codepath.startthread.twitter.fragments.ComposeDialogFragment;
@@ -19,6 +20,7 @@ import com.codepath.startthread.twitter.fragments.HomeTimelineFragment;
 import com.codepath.startthread.twitter.fragments.MentionsTimelineFragment;
 import com.codepath.startthread.twitter.listeners.SherlockTabListener;
 import com.codepath.startthread.twitter.models.Tweet;
+import com.codepath.startthread.twitter.models.User;
 
 public class TimelineActivity extends SherlockFragmentActivity implements ComposerListener {
 
@@ -29,6 +31,7 @@ public class TimelineActivity extends SherlockFragmentActivity implements Compos
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS); 
 		setContentView(R.layout.activity_timeline);	
 		setupTabs();
 	}
@@ -79,18 +82,25 @@ public class TimelineActivity extends SherlockFragmentActivity implements Compos
 			return true;
 			
 		case R.id.action_profile:
-			final Intent intent = new Intent(this, ProfileActivity.class);
-			startActivity(intent);
+			final TwitterApplication app = (TwitterApplication)getApplication();
+			final User currentUser = app.getCurrentUser();
+			
+			if (currentUser != null) {
+				final Intent intent = new Intent(this, ProfileActivity.class);
+				intent.putExtra(ProfileActivity.EXTRA_SCREEN_NAME, currentUser.getScreenName());
+				intent.putExtra(ProfileActivity.EXTRA_USER_ID, currentUser.getUserId());
+				startActivity(intent);
+			} else {
+				app.loadCurrentUserInfo();
+			}
+			
 			return true;
 		
 		case R.id.action_logout:
 			TwitterApplication.getRestClient().clearAccessToken();
 			finish();
-			return true;
-		
+			return true;		
 		}
-		
-		
 		
 		return super.onOptionsItemSelected(item);
 	}

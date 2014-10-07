@@ -4,6 +4,7 @@ import org.scribe.builder.api.Api;
 import org.scribe.builder.api.TwitterApi;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.codepath.oauth.OAuthBaseClient;
@@ -72,7 +73,7 @@ public class TwitterClient extends OAuthBaseClient {
 		
 	}
 	
-	public void getUserTimeline(long maxId, JsonHttpResponseHandler handler) {
+	public void getUserTimeline(String screenName, long maxId, JsonHttpResponseHandler handler) {
 		String apiUri = getApiUrl("statuses/user_timeline.json"); 
 		Log.d(TAG, "getUserTimeline");
 		RequestParams params = new RequestParams();
@@ -82,6 +83,10 @@ public class TwitterClient extends OAuthBaseClient {
 			params.put("max_id", Long.toString(maxId));
 		}
 		
+		if (!TextUtils.isEmpty(screenName)) {
+			params.put("screen_name", screenName);
+		}
+		
 		client.get(apiUri, params, handler);
 	}
 	
@@ -89,6 +94,15 @@ public class TwitterClient extends OAuthBaseClient {
 		String apiUri = getApiUrl("account/verify_credentials.json"); 
 		Log.d(TAG, "getMyInfo");
 		client.get(apiUri, null, handler);
+	}
+	
+	public void getUserInfo(long userId, String screenName, JsonHttpResponseHandler handler) {
+		String apiUri = getApiUrl("users/show.json"); 
+		Log.d(TAG, "getUserInfo");
+		RequestParams params = new RequestParams();
+		params.put("user_id", Long.toString(userId));
+		params.put("screen_name", screenName);
+		client.get(apiUri, params, handler);
 	}
 	
 	
