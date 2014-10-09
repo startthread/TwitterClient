@@ -24,6 +24,10 @@ User Stories Completed:
 * [x] Efforts to make theme similar to twitter
 * [x] Compose is done on DialogFragment
 
+Demo GIF 1:
+-----------
+
+![Video Walkthrough](TwitterClient.gif)
 
 Twitter Client 2
 ============
@@ -50,6 +54,6 @@ User Stories Completed:
 * [x] Show multiphoto tweet with the help of list view adapter for different type (showing two one and two photos)
 
 
-Demo GIF:
----------
+Demo GIF 2:
+-----------
 ![Video Walkthrough](TwitterClient2.gif)
