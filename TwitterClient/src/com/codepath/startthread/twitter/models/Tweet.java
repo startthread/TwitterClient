@@ -31,12 +31,35 @@ public class Tweet extends Model {
 
 	@Column(name = "retweet_count")
 	private long retweetCount;
-	
+
 	@Column(name = "favorite_count")
 	private long favoriteCount;
-	
+
 	@Column(name = "user")
 	private User user;
+
+	public TweetType type = TweetType.TEXT;
+
+	private List<String> mediaUrls;
+
+	public enum TweetType {
+		TEXT, MEDIA_ONE, MEDIA_TWO, MEDIA_THREE, MEDIA_FOUR;
+
+		public static TweetType getType(int value) {
+			switch (value) {
+			case 1:
+				return MEDIA_ONE;
+			case 2:
+				return MEDIA_TWO;
+			case 3:
+				return MEDIA_THREE;
+			case 4:
+				return MEDIA_FOUR;
+			default:
+				return TEXT;
+			}
+		}
+	}
 
 	public Tweet() {
 		super();
@@ -57,7 +80,7 @@ public class Tweet extends Model {
 	public User getUser() {
 		return user;
 	}
-	
+
 	public long getRetweetCount() {
 		return retweetCount;
 	}
@@ -75,6 +98,19 @@ public class Tweet extends Model {
 			tweet.retweetCount = json.optLong("retweet_count");
 			tweet.favoriteCount = json.optLong("favorite_count");
 			tweet.user = User.fromJSON(json.getJSONObject("user"));
+
+			JSONObject entities = json.optJSONObject("extended_entities");
+			if (entities != null) {
+				JSONArray medias = entities.optJSONArray("media");
+				if (medias != null) {
+					tweet.mediaUrls = new ArrayList<String>(medias.length());
+					for (int i = 0; i < medias.length(); i++) {
+						JSONObject mediaJson = medias.getJSONObject(i);
+						tweet.mediaUrls.add(mediaJson.getString("media_url"));
+					}
+					tweet.type = TweetType.getType(tweet.mediaUrls.size());
+				}
+			}
 		} catch (JSONException e) {
 			Log.w(TAG, "could not parse json", e);
 			return null;
@@ -82,7 +118,6 @@ public class Tweet extends Model {
 
 		return tweet;
 	}
-
 
 	public static List<Tweet> fromJSONArray(JSONArray json) {
 		final List<Tweet> tweets = new ArrayList<Tweet>(json.length());
@@ -104,9 +139,14 @@ public class Tweet extends Model {
 	}
 
 	public static Tweet getTweet(Tweet tweet) {
-	    return new Select()
-	        .from(Tweet.class)
-	        .where("tweetId = ?", tweet.getTweetId())
-	        .executeSingle();
+		return new Select().from(Tweet.class)
+				.where("tweetId = ?", tweet.getTweetId()).executeSingle();
+	}
+
+	public String getMedia(int i) {
+		if (mediaUrls != null && mediaUrls.size() > i) {
+			return mediaUrls.get(i);
+		}
+		return "";
 	}
 }

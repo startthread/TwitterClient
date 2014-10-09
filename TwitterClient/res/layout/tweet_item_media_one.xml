@@ -5,11 +5,20 @@
     android:padding="4dp" >
 
     <include layout="@layout/simple_tweet_with_header"/>
-
+    
+    <ImageView
+        android:layout_below="@id/rlSimpleTweet"
+        android:id="@+id/ivMediaOne"
+        android:layout_width="fill_parent"
+        android:layout_height="180dp"
+        android:layout_marginLeft="@dimen/tweet_margin_left"
+        android:contentDescription="@null"
+        android:src="@drawable/background_image_default" />
+    
     <include
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rlSimpleTweet"
+        android:layout_below="@id/ivMediaOne"
         android:layout_marginLeft="@dimen/tweet_margin_left"
         layout="@layout/tweet_bottom_toolbar" />
 
