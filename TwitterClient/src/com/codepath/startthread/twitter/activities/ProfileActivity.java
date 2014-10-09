@@ -22,6 +22,8 @@ import com.codepath.startthread.twitter.fragments.UserTimelineFragment;
 import com.codepath.startthread.twitter.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.viewpagerindicator.CirclePageIndicator;
+import com.viewpagerindicator.PageIndicator;
 
 public class ProfileActivity extends SherlockFragmentActivity {
 
@@ -74,6 +76,10 @@ public class ProfileActivity extends SherlockFragmentActivity {
 				final ViewPager viewPager = (ViewPager) findViewById(R.id.vpPager);
 				final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), user);
 				viewPager.setAdapter(adapter);
+				
+				final PageIndicator indicator = (CirclePageIndicator)findViewById(R.id.indicator);
+		        indicator.setViewPager(viewPager);
+		        
 				populateProfileHeader(user);
 			}
 		});
@@ -85,9 +91,9 @@ public class ProfileActivity extends SherlockFragmentActivity {
 		TextView tvTweets = (TextView) findViewById(R.id.tvTweets);
 		ImageView ivProfileBackground = (ImageView) findViewById(R.id.ivProfileBackground);
 		
-		tvTweets.setText(user.getStatusesCount() + " Tweets");
-		tvFollowers.setText(user.getFollowersCount() + " Followers");
-		tvFollowing.setText(user.getFollowingCount() + " Following");
+		tvTweets.setText(Long.toString(user.getStatusesCount()));
+		tvFollowers.setText(Long.toString(user.getFollowersCount()));
+		tvFollowing.setText(Long.toString(user.getFollowingCount()));
 		
 		ImageLoader.getInstance().displayImage(user.getProfileBackgroundImageUrl(), ivProfileBackground);
 	}
