@@ -25,6 +25,31 @@ User Stories Completed:
 * [x] Compose is done on DialogFragment
 
 
+Twitter Client 2
+============
+
+Hours to implement: 10 hrs
+
+Description:
+------------
+Enhance existing Twitter client to show user profile, mentions etc
+
+User Stories Completed:
+-----------------------
+
+### Core Stories:
+* [x] Show user's home timeline
+* [x] Show user's mentions
+* [x] Show user profile
+* [x] Profile of other user on click on their profile pic
+* [x] Infinite pagination of timelines or including other users
+
+
+### Optional Advanced Stories:
+* [x] Indeterminate progress indicator in action bar
+* [x] Show multiphoto tweet with the help of list view adapter for different type (showing two one and two photos)
+
+
 Demo GIF:
 ---------
-![Video Walkthrough](TwitterClient.gif)
+![Video Walkthrough](TwitterClient2.gif)
