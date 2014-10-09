@@ -69,7 +69,7 @@ public class ProfileActivity extends SherlockFragmentActivity {
 			
 			@Override
 			public void onSuccess(JSONObject response) {
-				Log.d(TAG, "received profile info");
+				Log.d(TAG, "received profile info: " + response.toString());
 				User user = User.fromJSON(response);
 				getActionBar().setTitle(Twitter.AT + user.getScreenName());
 				
@@ -95,7 +95,7 @@ public class ProfileActivity extends SherlockFragmentActivity {
 		tvFollowers.setText(Long.toString(user.getFollowersCount()));
 		tvFollowing.setText(Long.toString(user.getFollowingCount()));
 		
-		ImageLoader.getInstance().displayImage(user.getProfileBackgroundImageUrl(), ivProfileBackground);
+		ImageLoader.getInstance().displayImage(user.getProfileBannerUrl(), ivProfileBackground);
 	}
 	
 	private static class PagerAdapter extends FragmentPagerAdapter {
