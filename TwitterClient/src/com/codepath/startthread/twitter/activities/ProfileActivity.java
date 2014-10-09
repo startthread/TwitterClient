@@ -4,6 +4,9 @@ import org.json.JSONObject;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,7 +14,10 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.codepath.startthread.twitter.R;
+import com.codepath.startthread.twitter.Twitter;
 import com.codepath.startthread.twitter.TwitterApplication;
+import com.codepath.startthread.twitter.fragments.ProfileHeadePageOneFragment;
+import com.codepath.startthread.twitter.fragments.ProfileHeadePageTwoFragment;
 import com.codepath.startthread.twitter.fragments.UserTimelineFragment;
 import com.codepath.startthread.twitter.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -61,29 +67,59 @@ public class ProfileActivity extends SherlockFragmentActivity {
 			
 			@Override
 			public void onSuccess(JSONObject response) {
+				Log.d(TAG, "received profile info");
 				User user = User.fromJSON(response);
-				getActionBar().setTitle("@" + user.getScreenName());
-				Log.d(TAG, "received profile info: " + response.toString());
+				getActionBar().setTitle(Twitter.AT + user.getScreenName());
+				
+				final ViewPager viewPager = (ViewPager) findViewById(R.id.vpPager);
+				final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), user);
+				viewPager.setAdapter(adapter);
 				populateProfileHeader(user);
 			}
 		});
 	}
 	
 	private void populateProfileHeader(User user) {
-		TextView tvName = (TextView) findViewById(R.id.tvName);
-		TextView tvTagline = (TextView) findViewById(R.id.tvTagline);
 		TextView tvFollowers = (TextView) findViewById(R.id.tvFollowers);
 		TextView tvFollowing = (TextView) findViewById(R.id.tvFollowing);
 		TextView tvTweets = (TextView) findViewById(R.id.tvTweets);
-		ImageView ivProfile = (ImageView) findViewById(R.id.ivProfile);
+		ImageView ivProfileBackground = (ImageView) findViewById(R.id.ivProfileBackground);
 		
-		tvName.setText(user.getName());
-		tvTagline.setText(user.getTagline());
 		tvTweets.setText(user.getStatusesCount() + " Tweets");
 		tvFollowers.setText(user.getFollowersCount() + " Followers");
 		tvFollowing.setText(user.getFollowingCount() + " Following");
 		
-		ImageLoader.getInstance().displayImage(user.getProfileImageUrl(), ivProfile);
+		ImageLoader.getInstance().displayImage(user.getProfileBackgroundImageUrl(), ivProfileBackground);
+	}
+	
+	private static class PagerAdapter extends FragmentPagerAdapter {
+		private static final int NUM_PAGES = 2;
+		
+		private User user;
+		
+		public PagerAdapter(FragmentManager fm, User user) {
+			super(fm);
+			this.user = user;
+		}
+		
+		@Override
+		public Fragment getItem(int position) {
+			switch (position) {
+			case 0:
+				return ProfileHeadePageOneFragment.newInstance(user.getProfileImageUrl(),
+						user.getName(), user.getScreenName());
+						
+			case 1:
+				return ProfileHeadePageTwoFragment.newInstance(user.getTagline(), user.getLocation());
+			}
+			return null;
+		}
+
+		@Override
+		public int getCount() {
+			return NUM_PAGES;
+		}
+		
 	}
 
 }

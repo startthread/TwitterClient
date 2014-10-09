@@ -38,6 +38,12 @@ public class User extends Model {
 	
 	@Column(name = "statuses_count")
 	private long statusesCount;
+	
+	@Column(name = "location")
+	private String location;
+	
+	@Column(name = "profile_background_image_url")
+	private String profileBackgroundImageUrl;
 
 	public User() {
 		super();
@@ -75,6 +81,14 @@ public class User extends Model {
 		return statusesCount;
 	}
 
+	public String getProfileBackgroundImageUrl() {
+		return profileBackgroundImageUrl;
+	}
+	
+	public String getLocation() {
+		return location;
+	}
+
 	public static User getUser(User user) {
 	    return new Select()
 	        .from(User.class)
@@ -91,9 +105,11 @@ public class User extends Model {
 			user.screenName = jsonObject.getString("screen_name");
 			user.tagline = jsonObject.getString("description");
 			user.profileImageUrl = jsonObject.getString("profile_image_url");
+			user.profileBackgroundImageUrl = jsonObject.getString("profile_background_image_url");
 			user.followersCount = jsonObject.getLong("followers_count");
 			user.followingCount = jsonObject.getLong("friends_count");
 			user.statusesCount = jsonObject.getLong("statuses_count");
+			user.location = jsonObject.getString("location");
 		} catch (JSONException e) {
 			Log.w(TAG, "could not parse json", e);
 			return null;
