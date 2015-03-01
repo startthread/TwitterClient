@@ -1,8 +1,6 @@
 Twitter Client
 ============
 
-Hours to implement: 12 hrs
-
 Description:
 ------------
 Create simple Twitter client, using Twitter REST APIs
